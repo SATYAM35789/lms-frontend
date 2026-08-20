@@ -32,7 +32,7 @@ npm install tailwindcss @tailwindcss/vite
 ```
 npx tailwindcss init
 ```
-3.Add fele extensions to taiwind config file in the contents property
+3.Add file extensions to taiwind config file in the contents property
 ```
 "./src/**/*.{html,js,jsx,ts,tsx}"
 ```
