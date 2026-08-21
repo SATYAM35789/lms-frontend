@@ -34,7 +34,7 @@ npx tailwindcss init
 ```
 3.Add file extensions to taiwind config file in the contents property
 ```
-"./src/**/*.{html,js,jsx,ts,tsx}"
+ "./index.html","./src/**/*.{html,js,jsx,ts,tsx}"
 ```
 4. Import the tailwind at top of the index.css file
 ```
@@ -55,7 +55,7 @@ npm i eslint-plugin-simple-import-sort
 
 so if we want ki dev dependencies mai chala jaaye then  :- 
 ```
-npm i -D eslint-plugin-simple-import-sort
+npm i -D eslint-plugin-simple-import-sort  postcss autoprefixer  
 ```
 
 2. Add Rules in '.eslint.config.js' 
