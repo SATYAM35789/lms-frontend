@@ -1,89 +1,105 @@
-import { FiMenu } from 'react-icons/fi'
-import { AiFillCloseCircle } from 'react-icons/ai'
+import { FiMenu } from 'react-icons/fi';
+import { AiFillCloseCircle } from 'react-icons/ai';
 import { Link, useNavigate } from 'react-router-dom';
 import Footer from '../Components/Footer';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 
 function HomeLayout({ children }) {
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    //  For checking if user is logged in
-    const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn)
+    // Check auth status
+    const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
+    const role = useSelector((state) => state?.auth?.role);
 
-    //  For displaying the options according to role
-    const role = useSelector((state) => state?.auth?.role)
-
-    function changeWidth() {
-        const drawerSide = document.getElementsByClassName("drawer-side")
-        drawerSide[0].style.width = 'auto';
-    }
-
+    // Helper to uncheck drawer checkbox when a user clicks close or navigates
     function hideDrawer() {
-        const element = document.getElementsByClassName("drawer-toggle")
-        element[0].checked = false;
-
-        // changeWidth();
-        const drawerSide = document.getElementsByClassName("drawer-side")
-        drawerSide[0].style.width = 0;
+        const element = document.getElementById("my-drawer");
+        if (element) {
+            element.checked = false;
+        }
     }
+
+    function handleLogout(e) {
+        e.preventDefault();
+        hideDrawer();
+        // dispatch(logout());
+        navigate("/");
+    }
+
     return (
         <div className="min-h-[90vh]">
             <div className="drawer absolute left-0 z-50 w-fit">
                 <input className="drawer-toggle" id="my-drawer" type="checkbox" />
+                
                 <div className="drawer-content">
-                    <label htmlFor="my-drawer" className="cursor-pointer relative ">
+                    <label htmlFor="my-drawer" className="cursor-pointer relative">
                         <FiMenu
-                            onClick={changeWidth}
                             size={"32px"}
                             className='font-bold text-white m-4'
                         />
                     </label>
                 </div>
 
-                <div className="drawer-side w-0 ">
-                    <label htmlFor='my-drawer' className='drawer-overlay'>
-                    </label>
-                    <ul className="menu p-4 w-48 sm:w-80 bg-base-100 text-base-content relative" >
+                <div className="drawer-side">
+                    <label htmlFor='my-drawer' className='drawer-overlay'></label>
+                    <ul className="menu p-4 w-48 h-[100%] sm:w-80 bg-base-100 text-base-content relative">
 
                         <li className='w-fit absolute right-2 z-50'>
                             <button onClick={hideDrawer}>
                                 <AiFillCloseCircle size={24} />
                             </button>
-
                         </li>
+
                         <li>
-                            <Link to={"/"}> Home </Link>
+                            <Link to={"/"} onClick={hideDrawer}> Home </Link>
                         </li>
 
-                        {isLoggedIn && role == 'ADMIN' && (
+                        {isLoggedIn && role === 'ADMIN' && (
                             <li>
-                                <Link to="/admin/dashboard">Admin Dashboard</Link>
+                                <Link to="/admin/dashboard" onClick={hideDrawer}>Admin Dashboard</Link>
                             </li>
                         )}
+
                         <li>
-                            <Link to={"/courses"}> All Courses </Link>
+                            <Link to={"/courses"} onClick={hideDrawer}> All Courses </Link>
                         </li>
 
                         <li>
-                            <Link to={"/contact"}> Contect us </Link>
+                            <Link to={"/contact"} onClick={hideDrawer}> Contact us </Link>
                         </li>
 
                         <li>
-                            <Link to={"/about"}> About us </Link>
+                            <Link to={"/about"} onClick={hideDrawer}> About us </Link>
                         </li>
+
+                        {!isLoggedIn && (
+                            <li className="absolute bottom-4 w-[90%]">
+                                <div className="w-full flex items-center justify-center gap-2">
+                                    <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
+                                        <Link to="/login" onClick={hideDrawer}> Login </Link>
+                                    </button>
+
+                                    <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>
+                                        <Link to="/signup" onClick={hideDrawer}> Sign up</Link>
+                                    </button>
+                                </div>
+                            </li>
+                        )}
 
                         {isLoggedIn && (
-                            <div className="w-full flex items-center justify-center">
-                                <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
-                                    <Link to="/login"> Login </Link>
-                                </button>
+                            <li className="absolute bottom-4 w-[90%]">
+                                <div className="w-full flex items-center justify-center gap-2">
+                                    <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
+                                        <Link to="/user/profile" onClick={hideDrawer}> Profile </Link>
+                                    </button>
 
-                                <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>
-                                    <Link to="/signup"> Sign up</Link>
-                                </button>
-                            </div>
+                                    <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>
+                                        <Link onClick={handleLogout}> Logout</Link>
+                                    </button>
+                                </div> 
+                            </li>
                         )}
 
                     </ul>
@@ -93,8 +109,8 @@ function HomeLayout({ children }) {
             {children}
 
             <Footer />
-
         </div>
-    )
+    );
 }
-export default HomeLayout; 
+
+export default HomeLayout;
