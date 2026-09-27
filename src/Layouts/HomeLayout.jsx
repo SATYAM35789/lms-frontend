@@ -53,25 +53,31 @@ function HomeLayout({ children }) {
                         </li>
 
                         <li>
-                            <Link to={"/"} onClick={hideDrawer}> Home </Link>
+                            <Link to={"/"} > Home </Link>
                         </li>
 
                         {isLoggedIn && role === 'ADMIN' && (
                             <li>
-                                <Link to="/admin/dashboard" onClick={hideDrawer}>Admin Dashboard</Link>
+                                <Link to="/admin/dashboard" >Admin Dashboard</Link>
+                            </li>
+                        )}
+
+                        {isLoggedIn && role === 'ADMIN' && (
+                            <li>
+                                <Link to="/course/create" >Create New Course </Link>
                             </li>
                         )}
 
                         <li>
-                            <Link to={"/courses"} onClick={hideDrawer}> All Courses </Link>
+                            <Link to={"/courses"} > All Courses </Link>
                         </li>
 
                         <li>
-                            <Link to={"/contact"} onClick={hideDrawer}> Contact us </Link>
+                            <Link to={"/contact"} > Contact us </Link>
                         </li>
 
                         <li>
-                            <Link to={"/about"} onClick={hideDrawer}> About us </Link>
+                            <Link to={"/about"}> About us </Link>
                         </li>
 
                         {!isLoggedIn && (
