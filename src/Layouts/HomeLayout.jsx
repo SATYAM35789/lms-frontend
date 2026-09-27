@@ -84,11 +84,11 @@ function HomeLayout({ children }) {
                             <li className="absolute bottom-4 w-[90%]">
                                 <div className="w-full flex items-center justify-center gap-2">
                                     <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
-                                        <Link to="/login" onClick={hideDrawer}> Login </Link>
+                                        <Link to="/login" > Login </Link>
                                     </button>
 
                                     <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>
-                                        <Link to="/signup" onClick={hideDrawer}> Sign up</Link>
+                                        <Link to="/signup"> Sign up</Link>
                                     </button>
                                 </div>
                             </li>
@@ -98,7 +98,7 @@ function HomeLayout({ children }) {
                             <li className="absolute bottom-4 w-[90%]">
                                 <div className="w-full flex items-center justify-center gap-2">
                                     <button className='btn-primary px-4 py-1 font-semibold rounded-md w-full'>
-                                        <Link to="/user/profile" onClick={hideDrawer}> Profile </Link>
+                                        <Link to="/user/profile"> Profile </Link>
                                     </button>
 
                                     <button className='btn-secondary px-4 py-1 font-semibold rounded-md w-full'>

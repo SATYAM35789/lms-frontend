@@ -1,12 +1,12 @@
 import { createSlice,createAsyncThunk } from "@reduxjs/toolkit";
 import {toast} from "react-hot-toast";
-import {AxiosInstance} from "../../Helpers/axiosinstance";
+
 
 
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     role: localStorage.getItem('role') || " ",
-    data: localStorage.getItem('data') || {}
+    data: JSON.parse(localStorage.getItem('data')) || {}
 };
 
 // Create Async Thunk for signup and login actions and we can go to thunk documentation for more details.
