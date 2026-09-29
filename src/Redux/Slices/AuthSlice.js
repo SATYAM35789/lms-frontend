@@ -6,7 +6,7 @@ import {toast} from "react-hot-toast";
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     role: localStorage.getItem('role') || " ",
-    data: JSON.parse(localStorage.getItem('data')) || {}
+    data: localStorage.getItem('data')!= undefined? JSON.parse(localStorage.getItem('data')) :{}
 };
 
 // Create Async Thunk for signup and login actions and we can go to thunk documentation for more details.
@@ -66,6 +66,37 @@ export const logout = createAsyncThunk("/auth/logout", async()=>{
     }
 })
 
+export const updateProfile = createAsyncThunk("/user/update/profile", async( data)=>{
+    try{
+        const res =  axiosInstance.put(`/user/update/${data[0]}`, data[1])
+        toast.promise(res , {
+            loading: "Wait ! profile update in progress...",
+            success: (data) => {
+                return data?.data?.message // returning the message from the response data
+            },
+            error : "Failed to update profile. Please try again."
+        })
+
+        return res.data; // returning the response data to be used in the fulfilled action
+
+    }
+    catch(error){
+        toast.error(error.response.data.message || "An error occurred during logout.")
+    }
+})
+
+// "/user/details" -> thunk ka naam
+export const getUserData = createAsyncThunk("/user/details", async()=>{
+    try{
+        const res =  axiosInstance.get("/user/me", data)
+        return res.data; // returning the response data to be used in the fulfilled action
+    }
+    catch(error){
+        toast.error(error.message || "An error occurred during logout.")
+    }
+
+})
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -86,6 +117,17 @@ const authSlice = createSlice({
             state.data = {}
             state.isLoggedIn = false
             state.role - ""
+        })
+
+        .addCase(getUserData.fulfilled, (state, action)=>{
+            if(!action?.payload?.user) return
+            localStorage.setItem("data", JSON.stringify(action?.payload?.user))  
+            localStorage.setItem("isLoggedIn", true)
+            localStorage.setItem("role", action?.payload?.user?.role)
+            state.isLoggedIn = true,
+            state.data = action?.payload?.user
+            state.role = action?.payload?.user?.role 
+
         })
     }
 })
